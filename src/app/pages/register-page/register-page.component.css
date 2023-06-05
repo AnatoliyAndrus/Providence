@@ -1,0 +1,26 @@
+mat-form-field, mat-select-country, button[type=submit]{
+  position: absolute;
+  left: 5px;
+  margin: 80px 10px 80px 10px;
+}
+
+form{
+  margin: 30px auto auto;
+  width: 50%;
+  border: 3px solid lightgray;
+  border-radius: 25px;;
+  padding: 10px;
+}
+
+@media only screen and (max-width: 800px) {
+  form {
+    width: 100%;
+    border: none;
+  }
+}
+
+.login{
+  position: absolute;
+  right: 20px;
+  margin: 80px 10px 80px 10px;
+}

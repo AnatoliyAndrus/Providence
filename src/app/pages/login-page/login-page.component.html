@@ -1,0 +1,38 @@
+<form [formGroup]="reactiveForm" (ngSubmit)="onFormSubmit()">
+  <div style="margin-top: 10px; margin-left: 10px;">
+    <h2 style="font-family: 'Times New Roman';"><b>Welcome back!</b></h2>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-grid-list cols="2" rowHeight="90px">
+    <mat-grid-tile colspan="2">
+      <mat-form-field>
+        <mat-label>Enter email</mat-label>
+        <input matInput placeholder="abc@example.com" formControlName="email">
+        <mat-error *ngIf="reactiveForm.get('email')?.hasError('required')">Email is required</mat-error>
+        <mat-error *ngIf="reactiveForm.get('email')?.hasError('email')">Incorrect email</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <mat-form-field>
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="reactiveForm.get('password')?.hasError('required')">Password is required</mat-error>
+        <mat-error *ngIf="reactiveForm.get('password')?.hasError('noSpaceAllowed')">Password shouldn't contain spaces</mat-error>
+      </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <button type="submit" class="btn-lg" value="Submit" [disabled]="reactiveForm.invalid" mat-raised-button color="primary">Submit</button>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <button routerLink="../register" class="btn-lg register" mat-button color="primary">register instead</button>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+
+
+
+
+</form>

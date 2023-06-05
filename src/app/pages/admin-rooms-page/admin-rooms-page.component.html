@@ -1,0 +1,111 @@
+<form [formGroup]="addressForm" (ngSubmit)="onSubmitAddress()" class="address-form">
+  <mat-form-field>
+    <mat-label>Choose address</mat-label>
+    <input type="text"
+           placeholder="Pick one"
+           aria-label="Number"
+           matInput
+           formControlName="address"
+           [matAutocomplete]="auto" required>
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let hotel of hotels" [value]="hotel">
+        {{hotel}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <button mat-raised-button color="primary" [disabled]="addressForm.invalid" type="submit">Choose</button>
+  <br>
+  <h4 *ngIf="currentHotelAddress===''"><b>Enter address of hotel to which desired room belongs</b></h4>
+</form>
+
+<div *ngIf="currentHotelAddress!==''">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4" *ngIf="mode==='add'">
+      <h3><b>Add room</b></h3>
+      <form [formGroup]="roomAddForm" (ngSubmit)="onRoomAddSubmit()">
+        <mat-form-field>
+          <mat-label>Number</mat-label>
+          <input matInput type="number" formControlName="number" placeholder="0">
+        </mat-form-field>
+        <mat-error *ngIf="roomAddForm.get('number')?.hasError('required')">Number is required</mat-error>
+        <mat-form-field floatLabel="always">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" formControlName="price" placeholder="0">
+          <span matTextPrefix="">$&nbsp;</span>
+          <span matTextSuffix="">.00</span>
+        </mat-form-field>
+        <mat-error *ngIf="roomAddForm.get('price')?.hasError('required')">Price is required</mat-error>
+        <br><mat-form-field>
+        <mat-label>Capacity</mat-label>
+        <mat-select formControlName="capacity">
+          <mat-option *ngFor="let i of [1,2,3,4]" value="{{i}}">{{i}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="roomAddForm.get('capacity')?.hasError('required')">Choose capacity</mat-error>
+        </mat-form-field>
+        <br><label for="add-form-image">Choose image (only jpeg and png accepted)</label>
+        <br>
+        <div class="custom-file">
+          <input type="file" accept="image/*" formControlName="image" id="add-form-image" (change)="handleFileInput($event)">
+        </div>
+        <br>
+        <button mat-raised-button color="primary" [disabled]="roomAddForm.invalid" type="submit">Add</button>
+      </form>
+    </div>
+
+
+    <div class="col-md-4" *ngIf="mode==='change'">
+      <h3><b>Change hotel data</b></h3>
+      <form [formGroup]="roomEditForm" (ngSubmit)="onRoomEditSubmit()">
+        <input matInput type="number" formControlName="oldNumber" style="display: none">
+        <mat-form-field>
+          <mat-label>Number</mat-label>
+          <input matInput type="number" formControlName="newNumber" placeholder="0">
+        </mat-form-field>
+        <mat-error *ngIf="roomEditForm.get('newNumber')?.hasError('required')">Number is required</mat-error>
+        <br>
+        <mat-form-field floatLabel="always">
+          <mat-label>Price</mat-label>
+          <input matInput type="number" formControlName="newPrice" placeholder="0">
+          <span matTextPrefix="">$&nbsp;</span>
+          <span matTextSuffix="">.00</span>
+        </mat-form-field>
+        <mat-error *ngIf="roomEditForm.get('newPrice')?.hasError('required')">Price is required</mat-error>
+        <br><mat-form-field>
+        <mat-label>Capacity</mat-label>
+        <mat-select formControlName="newCapacity">
+          <mat-option *ngFor="let i of [1,2,3,4]" value="{{i}}">{{i}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="roomEditForm.get('newCapacity')?.hasError('required')">Choose capacity</mat-error>
+        </mat-form-field>
+        <br><label for="edit-form-image">Choose image (only jpeg and png accepted)</label>
+        <br>
+        <div class="custom-file">
+          <input type="file" accept="image/*" formControlName="newImage" id="edit-form-image" (change)="handleFileInput($event)">
+        </div>
+        <br>
+        <button mat-raised-button color="primary" [disabled]="roomEditForm.invalid" type="submit">Edit</button>
+        <button mat-raised-button color="primary" (click)="mode='add'">Cancel</button>
+      </form>
+    </div>
+
+    <div class="col-md-8">
+      <h3>Room list</h3>
+      <div class="room-list">
+        <div *ngFor="let room of rooms | async" class="room-item">
+          <div class="room-details">
+            <p><b>Number:</b> {{ room.number }}</p>
+            <p>Price: {{ room.price }}.00$&nbsp;</p>
+            <p>Capacity: {{ room.capacity }}</p>
+            <img src="data:image/png;base64,{{room.image}}" width="400px" height="300px">
+          </div>
+          <div class="room-actions">
+            <button class="btn btn-outline-secondary" (click)="editRoom(room)">Edit</button>
+            <button class="btn btn-danger" (click)="deleteRoom(room)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

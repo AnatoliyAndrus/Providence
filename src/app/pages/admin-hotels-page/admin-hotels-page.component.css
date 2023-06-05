@@ -1,0 +1,20 @@
+.hotel-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.hotel-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.hotel-details {
+  flex-grow: 1;
+}
+
+.hotel-actions {
+  margin-left: 10px;
+}

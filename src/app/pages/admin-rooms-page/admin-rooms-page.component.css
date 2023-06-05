@@ -1,0 +1,25 @@
+.address-form{
+  margin:20px 0 0 1%;
+}
+
+
+.room-list {
+  max-height: 300px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.room-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.room-details {
+  flex-grow: 1;
+}
+
+.room-actions {
+  margin-left: 10px;
+}

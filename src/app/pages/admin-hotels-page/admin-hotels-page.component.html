@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4" *ngIf="mode==='add'">
+      <h3><b>Add hotel</b></h3>
+      <form [formGroup]="hotelAddForm" (ngSubmit)="onAddSubmit()">
+        <mat-form-field>
+          <input matInput formControlName="address" placeholder="Address" required>
+        </mat-form-field>
+        <mat-error *ngIf="hotelAddForm.get('address')?.hasError('required')">Address is required</mat-error>
+        <br><mat-form-field>
+          <mat-label>Stars</mat-label>
+          <mat-select formControlName="stars">
+            <mat-option *ngFor="let i of [1,2,3,4,5]" value="{{i}}">{{i}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="hotelAddForm.get('stars')?.hasError('required')">Choose stars amount</mat-error>
+        </mat-form-field>
+        <br><mat-form-field>
+          <mat-label>Phone number</mat-label>
+          <input matInput placeholder="+380992008322" formControlName="phoneNumber">
+          <mat-error *ngIf="hotelAddForm.get('phoneNumber')?.hasError('required')">Phone is required</mat-error>
+          <mat-error *ngIf="hotelAddForm.get('phoneNumber')?.hasError('invalidPhone')">Invalid phone</mat-error>
+        </mat-form-field>
+        <br>
+        <button mat-raised-button color="primary" [disabled]="hotelAddForm.invalid" type="submit">Add</button>
+      </form>
+    </div>
+
+    <div class="col-md-4" *ngIf="mode==='change'">
+      <h3><b>Change hotel data</b></h3>
+      <form [formGroup]="hotelEditForm" (ngSubmit)="onEditSubmit()">
+        <mat-form-field>
+          <input matInput formControlName="address" placeholder="Address" required readonly>
+        </mat-form-field>
+        <br><mat-form-field>
+          <mat-label><b>Stars</b></mat-label>
+          <mat-select formControlName="newStars">
+            <mat-option *ngFor="let i of [1,2,3,4,5]" value="{{i}}">{{i}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="hotelEditForm.get('newStars')?.hasError('required')">Choose stars amount</mat-error>
+        </mat-form-field>
+        <br><mat-form-field>
+          <mat-label><b>Phone number</b></mat-label>
+          <input matInput placeholder="+380992008322" formControlName="newPhone">
+          <mat-error *ngIf="hotelAddForm.get('newPhone')?.hasError('required')">Phone is required</mat-error>
+          <mat-error *ngIf="hotelEditForm.get('newPhone')?.hasError('invalidPhone')">Invalid phone</mat-error>
+        </mat-form-field>
+        <br>
+        <button mat-raised-button color="primary" [disabled]="hotelEditForm.invalid" type="submit">Edit</button>
+        <button mat-raised-button color="primary" (click)="mode='add'">Cancel</button>
+      </form>
+    </div>
+
+    <div class="col-md-8">
+      <h3>Hotel list</h3>
+      <div class="hotel-list">
+        <div *ngFor="let hotel of hotels$|async" class="hotel-item">
+          <div class="hotel-details">
+            <p><b>Address:</b> {{ hotel.address }}</p>
+            <p>Stars: {{ hotel.stars }}</p>
+            <p>Phone: {{ hotel.phoneNumber }}</p>
+          </div>
+          <div class="hotel-actions">
+            <button class="btn btn-outline-secondary" (click)="editHotel(hotel)">Edit</button>
+            <button class="btn btn-danger" (click)="deleteHotel(hotel)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
