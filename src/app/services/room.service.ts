@@ -37,4 +37,18 @@ export class RoomService {
   }):Observable<any>{
     return this.http.put(this.baselink+'/delete', data);
   }
+
+  /**
+   * @param data {
+   *   hotelAddress
+   *   checkIn
+   *   checkOut
+   *   adults
+   *   priceMin
+   *   priceMax
+   * }
+   */
+  getFilteredRooms(data:any):Observable<Room[]>{
+    return this.http.post<Room[]>(this.baselink+'/getFiltered', data);
+  }
 }

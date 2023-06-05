@@ -96,12 +96,7 @@ export class AdminRoomsPageComponent implements OnInit, OnDestroy{
         }
       ));
   }
-  // hotelAddress:string,
-  // oldNumber:any,
-  // newNumber:any,
-  // newPrice:any,
-  // newCapacity:any,
-  // newImage:string
+
   onRoomEditSubmit(){
     this.subscriptions.push(this.roomService.updateRoom({
       oldNumber:this.roomEditForm.value.oldNumber as string,

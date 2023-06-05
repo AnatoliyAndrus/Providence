@@ -36,7 +36,7 @@
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
         <mat-error *ngIf="reactiveForm.get('password')?.hasError('required')">Password is required</mat-error>
-        <mat-error *ngIf="reactiveForm.get('password')?.hasError('minLength')">Password should be at least {{passwordMinLength}} symbols length</mat-error>
+        <mat-error *ngIf="reactiveForm.get('password')?.hasError('minPassLength')">Password should be at least {{passwordMinLength}} symbols length</mat-error>
         <mat-error *ngIf="reactiveForm.get('password')?.hasError('noSpaceAllowed')">Password shouldn't contain spaces</mat-error>
       </mat-form-field>
     </mat-grid-tile>

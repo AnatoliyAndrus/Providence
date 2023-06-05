@@ -7,7 +7,7 @@ import { RegisterPageComponent } from './pages/register-page/register-page.compo
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
-import {NgIf} from "@angular/common";
+import {DatePipe, NgIf} from "@angular/common";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSelectCountryModule} from "@angular-material-extensions/select-country";
@@ -26,6 +26,9 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import { UserBookingPageComponent } from './pages/user-booking-page/user-booking-page.component';
 import { UserMyBookingsPageComponent } from './pages/user-my-bookings-page/user-my-bookings-page.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatCardModule} from "@angular/material/card";
 
 
 @NgModule({
@@ -42,6 +45,7 @@ import { UserMyBookingsPageComponent } from './pages/user-my-bookings-page/user-
     UserMyBookingsPageComponent
   ],
     imports: [
+        MatNativeDateModule,
         HttpClientModule,
         BrowserAnimationsModule,
         BrowserModule,
@@ -60,9 +64,11 @@ import { UserMyBookingsPageComponent } from './pages/user-my-bookings-page/user-
         MatDividerModule,
         MatToolbarModule,
         MatSelectModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatDatepickerModule,
+        MatCardModule
     ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

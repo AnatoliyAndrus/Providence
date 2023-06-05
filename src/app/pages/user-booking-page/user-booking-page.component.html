@@ -1,1 +1,79 @@
-<p>user-booking-page works!</p>
+<div class="form-group">
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <mat-label>Choose address of hotel</mat-label>
+      <input type="text"
+             placeholder="Pick one"
+             aria-label="Number"
+             matInput
+             formControlName="hotelAddress"
+             [matAutocomplete]="auto" required>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let hotel of hotels" [value]="hotel">
+          {{hotel}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="searchForm.get('hotelAddress')?.hasError('required')">Address is required</mat-error>
+      <mat-error *ngIf="searchForm.get('hotelAddress')?.hasError('inputNotInArray')">Choose address from drop-list</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [dateFilter]="myFilter" [formGroup]="searchForm" [rangePicker]="picker">
+        <input matStartDate formControlName="checkIn" placeholder="Check-in">
+        <input matEndDate formControlName="checkOut" placeholder="Check-out">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+      <mat-error *ngIf="searchForm.get('checkIn')?.hasError('matStartDateInvalid')">Invalid check-in date</mat-error>
+      <mat-error *ngIf="searchForm.get('checkOut')?.hasError('matEndDateInvalid')">Invalid check-out date</mat-error>
+    </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Adults</mat-label>
+        <mat-select formControlName="adults">
+          <mat-option *ngFor="let i of [1,2,3,4]" value="{{i}}">{{i}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="searchForm.get('adults')?.hasError('required')">Choose amount of adults</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Minimal price</mat-label>
+        <input matInput type="number" formControlName="priceMin" placeholder="0" (change)="changeMinPrice()">
+        <span matTextPrefix="">$&nbsp;</span>
+        <span matTextSuffix="">.00</span>
+        <mat-hint>(optional)</mat-hint>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Maximal price</mat-label>
+        <input matInput type="number" formControlName="priceMax" placeholder="0" (change)="changeMaxPrice()">
+        <span matTextPrefix="">$&nbsp;</span>
+        <span matTextSuffix="">.00</span>
+        <mat-hint>(optional)</mat-hint>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" [disabled]="searchForm.invalid" type="submit" class="submit-button">Search</button>
+    <mat-divider></mat-divider>
+  </form>
+</div>
+
+<mat-grid-list [cols]="3" rowHeight="350px" *ngIf="roomsDepicted">
+  <mat-grid-tile *ngFor="let room of roomsChosen">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>№{{ room.number }}</mat-card-title>
+      </mat-card-header>
+      <img [src]="'data:image/png;base64,'+room.image" alt="Room Image" mat-card-image style="width: available; object-fit: cover;" height="150">
+      <mat-card-content>
+        <mat-icon *ngFor="let i of [].constructor(room.capacity)">face</mat-icon>
+        <p>Price {{ room.price }}$</p>
+        <br><button mat-raised-button color="primary">Book</button>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <div style="margin-left: 1%;">
+    <h2 *ngIf="roomsDepicted&&roomsChosen.length===0"><b>Unfortunately, nothing found by these filters</b></h2>
+  </div>
+</mat-grid-list>
