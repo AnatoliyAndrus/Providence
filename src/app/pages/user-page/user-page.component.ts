@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {UserService} from "../../services/user.service";
 
 @Component({
   selector: 'app-user-page',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./user-page.component.css']
 })
 export class UserPageComponent {
-
+  userService:UserService
+  constructor(userService:UserService) {
+    this.userService=userService;
+  }
 }

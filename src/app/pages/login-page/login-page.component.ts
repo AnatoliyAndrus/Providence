@@ -1,23 +1,31 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {MatGridListModule} from "@angular/material/grid-list";
+import {Subscription} from "rxjs";
+import {UserService} from "../../services/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
 })
-export class LoginPageComponent {
+export class LoginPageComponent implements OnDestroy{
 
   passwordMinLength:number = 6;
   hidePassword:boolean = false;
   reactiveForm: FormGroup;
+  invalidPasswordError:boolean=false;
+  subs:Subscription[]=[];
 
-  constructor() {
+  constructor(private userService:UserService, private router:Router) {
     this.reactiveForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [Validators.required, this.noSpaceAllowed]),
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.forEach((sub)=>{sub.unsubscribe()});
   }
 
   noSpaceAllowed(control: FormControl){
@@ -28,8 +36,18 @@ export class LoginPageComponent {
   }
 
   onFormSubmit(){
-    console.log("lsgkjf")
     console.log(this.reactiveForm.value);
+    this.subs.push(this.userService.authenticate(this.reactiveForm.value.email, this.reactiveForm.value.password).subscribe(
+      (response)=>{
+        this.userService.userLogin(response.authenticated, this.reactiveForm.value.email, response.role);
+        if(this.userService.getRole()==='ADMIN') this.router.navigate(['/admin/home']);
+        else if(this.userService.getRole()==='CLIENT') this.router.navigate(['/user']);
+      },
+      error => {
+        console.log(error);
+        this.invalidPasswordError=true;
+      }
+    ));
   }
 
 

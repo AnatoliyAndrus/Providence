@@ -1,0 +1,49 @@
+<mat-form-field>
+  <mat-label>Choose address</mat-label>
+  <input type="text"
+         placeholder="Pick one"
+         aria-label="Number"
+         matInput
+         [(ngModel)]="address"
+         [matAutocomplete]="auto" required>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onChooseHotel()">
+    <mat-option *ngFor="let hotel of hotels|async" [value]="hotel.address">
+      {{hotel.address}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Room</mat-label>
+  <input type="text"
+         placeholder="Pick one"
+         aria-label="Number"
+         matInput
+         [(ngModel)]="number"
+         [matAutocomplete]="auto1" required>
+  <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="onChooseRoom()">
+    <mat-option *ngFor="let room of rooms|async" [value]="room.number">
+      {{room.number}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+
+<div>
+  <h3>Bookings</h3>
+  <div class="booking-list">
+    <div *ngFor="let booking of bookings|async" class="booking-item" style="border: 1px dotted lightgray;">
+      <div class="booking-details">
+        <p><b>Hotel - </b>{{booking.hotel}}</p>
+        <p>Room №{{booking.room}}</p>
+        <mat-icon *ngFor="let i of [].constructor(booking.adults)">face</mat-icon>
+        <p>Price - {{booking.reservationPrice}}$</p>
+        <p>From <b>{{booking.checkIn}}</b> to <b>{{booking.checkOut}}</b></p>
+        <p>Client <b>{{booking.client}}</b></p>
+      </div>
+      <div class="booking-actions">
+        <button class="btn btn-danger" (click)="deleteBooking(booking)">Delete</button>
+      </div>
+    </div>
+    <h2 *ngIf="(bookings|async)?.length===0">Nothing to display here. Make some booking via page "Booking"</h2>
+  </div>
+</div>

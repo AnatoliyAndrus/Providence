@@ -9,6 +9,7 @@ import {AdminHotelsPageComponent} from "./pages/admin-hotels-page/admin-hotels-p
 import {AdminRoomsPageComponent} from "./pages/admin-rooms-page/admin-rooms-page.component";
 import {UserBookingPageComponent} from "./pages/user-booking-page/user-booking-page.component";
 import {UserMyBookingsPageComponent} from "./pages/user-my-bookings-page/user-my-bookings-page.component";
+import {AdminBookingsPageComponent} from "./pages/admin-bookings-page/admin-bookings-page.component";
 
 const routes: Routes = [
   {path:'register', component:RegisterPageComponent},
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path:'admin', component:AdminPageComponent, children:[
       {path:'home', component:AdminHomePageComponent},
       {path:'hotels', component:AdminHotelsPageComponent},
-      {path:'rooms', component:AdminRoomsPageComponent}
+      {path:'rooms', component:AdminRoomsPageComponent},
+      {path:'bookings', component:AdminBookingsPageComponent}
     ]},
   {path:'user', component:UserPageComponent, children:[
       {path:'booking', component: UserBookingPageComponent},

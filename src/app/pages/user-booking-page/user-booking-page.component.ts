@@ -7,6 +7,9 @@ import {Subscription} from "rxjs";
 import {Room} from "../../models/Room";
 import { DatePipe } from '@angular/common';
 import {MatNativeDateModule} from '@angular/material/core';
+import {UserService} from "../../services/user.service";
+import {MatButton} from "@angular/material/button";
+import {BookingsService} from "../../services/bookings.service";
 
 
 @Component({
@@ -23,7 +26,8 @@ export class UserBookingPageComponent implements OnInit, OnDestroy{
   hotels:string[]=[];
   roomsChosen:Room[]=[]
 
-  constructor(private hotelService:HotelService, private roomService:RoomService, private datePipe: DatePipe) {
+  constructor(private hotelService:HotelService, private roomService:RoomService, private datePipe: DatePipe, private userService:UserService,
+  private bookingsService:BookingsService) {
     this.searchForm = new FormGroup({
       hotelAddress: new FormControl(null, [Validators.required, this.inputNotInArray()]),
       checkIn: new FormControl(null, [Validators.required]),
@@ -59,26 +63,16 @@ export class UserBookingPageComponent implements OnInit, OnDestroy{
     };
   }
 
-  /**
-   * @param data {
-   *   hotelAddress
-   *   checkIn
-   *   checkOut
-   *   adults
-   *   priceMin
-   *   priceMax
-   * }
-   */
   onSubmit(){
+    this.savedFilterData={
+      hotelAddress:this.searchForm.value.hotelAddress,
+      checkIn: this.datePipe.transform(this.searchForm.value.checkIn, 'yyyy-MM-dd'),
+      checkOut: this.datePipe.transform(this.searchForm.value.checkOut, 'yyyy-MM-dd'),
+      adults:this.searchForm.value.adults,
+      priceMin:this.searchForm.value.priceMin,
+      priceMax:this.searchForm.value.priceMax};
     this.subscriptions.push(this.roomService.getFilteredRooms(
-      {
-        hotelAddress:this.searchForm.value.hotelAddress,
-        checkIn: this.datePipe.transform(this.searchForm.value.checkIn, 'yyyy-MM-dd'),
-        checkOut: this.datePipe.transform(this.searchForm.value.checkOut, 'yyyy-MM-dd'),
-        adults:this.searchForm.value.adults,
-        priceMin:this.searchForm.value.priceMin,
-        priceMax:this.searchForm.value.priceMax,
-      }
+      this.savedFilterData
     ).subscribe(
       response => {
         console.log(response)
@@ -106,5 +100,40 @@ export class UserBookingPageComponent implements OnInit, OnDestroy{
   myFilter = (d: Date | null): boolean => {
     return (d!==null)&&d>=this.minDate;
   };
+
+  savedFilterData?:any;
+
+  // reservation.setAdults(Integer.parseInt(data.get("adults")));
+  // reservation.setReservationPrice(new BigDecimal(data.get("reservationPrice")));
+  // reservation.setCheckIn(Date.valueOf(data.get("checkIn")));
+  // reservation.setCheckOut(Date.valueOf(data.get("checkOut")));
+  //
+  // String clientEmail = data.get("clientEmail");
+  //
+  // String hotelAddress = data.get("hotelAddress");
+  // Integer roomNumber = Integer.parseInt(data.get("roomNumber"));
+  onBook(button: MatButton, room: Room){
+    this.subscriptions.push(
+      this.bookingsService.createReservation(
+        {
+          adults:this.savedFilterData.adults,
+          reservationPrice:room.price,
+          checkIn:this.savedFilterData.checkIn,
+          checkOut:this.savedFilterData.checkOut,
+          clientEmail:this.userService.getEmail(),
+          hotelAddress:this.savedFilterData.hotelAddress,
+          roomNumber:room.number
+        }
+      ).subscribe(
+        (response)=>{
+          button.disabled=true;
+        },
+        error => {
+          console.log(error);
+          alert(error);
+        }
+      )
+    )
+  }
 
 }

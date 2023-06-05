@@ -4,5 +4,8 @@
   </button>
   <button mat-button [routerLink]="'/admin/hotels'">Hotels</button>
   <button mat-button [routerLink]="'/admin/rooms'">Rooms</button>
+  <button mat-button [routerLink]="'/admin/bookings'">Bookings</button>
+  <button mat-button routerLink="/login" class="spacer" *ngIf="!userService.isAuthenticated()">Login</button>
+  <button mat-button class="spacer" (click)="userService.userLogout()" routerLink="/login" *ngIf="userService.isAuthenticated()">Logout</button>
 </mat-toolbar>
 <router-outlet></router-outlet>

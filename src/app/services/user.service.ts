@@ -10,22 +10,47 @@ export class UserService {
   baselink: string = globals.baseApi + '/clients';
 
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {
+
+  }
 
   createUser(user:any):Observable<any>{
-    console.log(user)
     return this.http.post(this.baselink+'/create',user);
   }
 
-  //Client client = clientService.findByEmail(data.get("oldEmail"));
-  // client.setName(data.get("newName"));
-  // client.setSurname(data.get("newSurname"));
-  // client.setCountry(data.get("newCountry"));
-  // client.setEmail(data.get("newEmail"));
-  // client.setPassword(data.get("newPassword"));
   updateUser(user:any):Observable<any>{
     return this.http.patch(this.baselink+'/update',user);
   }
 
+  authenticate(email:string, password:string){
+    return this.http.post<any>(this.baselink+'/authenticate', {email: email, password:password});
+  }
 
+  isAuthenticated():boolean{
+    return localStorage.getItem('authenticated') === 'true';
+  }
+  setAuthenticated(authenticated:boolean){
+    localStorage.setItem('authenticated', String(authenticated));
+  }
+  getEmail():string|null{
+    return localStorage.getItem('email');
+  }
+  setEmail(email:string){
+    localStorage.setItem('email', email);
+  }
+  getRole():string|null{
+    return localStorage.getItem('role');
+  }
+  setRole(role:string){
+    localStorage.setItem('role', role);
+  }
+  userLogin(authenticated:boolean, email:string, role:string){
+    this.setAuthenticated(authenticated);
+    this.setEmail(email);
+    this.setRole(role);
+  }
+  userLogout(){
+    localStorage.clear();
+    localStorage.setItem('authenticated', 'false');
+  }
 }
