@@ -59,7 +59,7 @@
   </form>
 </div>
 
-<mat-grid-list [cols]="3" rowHeight="350px" *ngIf="roomsDepicted">
+<mat-grid-list [cols]="4" rowHeight="350px" *ngIf="roomsDepicted">
   <mat-grid-tile *ngFor="let room of roomsChosen">
     <mat-card style="width: 250px;">
       <img [src]="'data:image/png;base64,'+room.image" alt="Room Image" mat-card-image style="width: 100%; object-fit: cover;" height="150">
