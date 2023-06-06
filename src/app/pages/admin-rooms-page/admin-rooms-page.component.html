@@ -27,15 +27,15 @@
         <mat-form-field>
           <mat-label>Number</mat-label>
           <input matInput type="number" formControlName="number" placeholder="0">
+          <mat-error *ngIf="roomAddForm.get('number')?.hasError('required')">Number is required</mat-error>
         </mat-form-field>
-        <mat-error *ngIf="roomAddForm.get('number')?.hasError('required')">Number is required</mat-error>
         <mat-form-field floatLabel="always">
           <mat-label>Price</mat-label>
           <input matInput type="number" formControlName="price" placeholder="0">
           <span matTextPrefix="">$&nbsp;</span>
           <span matTextSuffix="">.00</span>
+          <mat-error *ngIf="roomAddForm.get('price')?.hasError('required')">Price is required</mat-error>
         </mat-form-field>
-        <mat-error *ngIf="roomAddForm.get('price')?.hasError('required')">Price is required</mat-error>
         <br><mat-form-field>
         <mat-label>Capacity</mat-label>
         <mat-select formControlName="capacity">
@@ -61,8 +61,8 @@
         <mat-form-field>
           <mat-label>Number</mat-label>
           <input matInput type="number" formControlName="newNumber" placeholder="0">
+          <mat-error *ngIf="roomEditForm.get('newNumber')?.hasError('required')">Number is required</mat-error>
         </mat-form-field>
-        <mat-error *ngIf="roomEditForm.get('newNumber')?.hasError('required')">Number is required</mat-error>
         <br>
         <mat-form-field floatLabel="always">
           <mat-label>Price</mat-label>

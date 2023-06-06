@@ -10,6 +10,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {UserService} from "../../services/user.service";
 import {MatButton} from "@angular/material/button";
 import {BookingsService} from "../../services/bookings.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -26,7 +27,7 @@ export class UserBookingPageComponent implements OnInit, OnDestroy{
   hotels:string[]=[];
   roomsChosen:Room[]=[]
 
-  constructor(private hotelService:HotelService, private roomService:RoomService, private datePipe: DatePipe, private userService:UserService,
+  constructor(private router:Router, private hotelService:HotelService, private roomService:RoomService, private datePipe: DatePipe, private userService:UserService,
   private bookingsService:BookingsService) {
     this.searchForm = new FormGroup({
       hotelAddress: new FormControl(null, [Validators.required, this.inputNotInArray()]),
@@ -112,28 +113,33 @@ export class UserBookingPageComponent implements OnInit, OnDestroy{
   //
   // String hotelAddress = data.get("hotelAddress");
   // Integer roomNumber = Integer.parseInt(data.get("roomNumber"));
-  onBook(button: MatButton, room: Room){
-    this.subscriptions.push(
-      this.bookingsService.createReservation(
-        {
-          adults:this.savedFilterData.adults,
-          reservationPrice:room.price,
-          checkIn:this.savedFilterData.checkIn,
-          checkOut:this.savedFilterData.checkOut,
-          clientEmail:this.userService.getEmail(),
-          hotelAddress:this.savedFilterData.hotelAddress,
-          roomNumber:room.number
-        }
-      ).subscribe(
-        (response)=>{
-          button.disabled=true;
-        },
-        error => {
-          console.log(error);
-          alert(error);
-        }
+  onBook(button: MatButton, room: Room) {
+    if (this.userService.isAuthenticated()) {
+      this.subscriptions.push(
+        this.bookingsService.createReservation(
+          {
+            adults: this.savedFilterData.adults,
+            reservationPrice: room.price,
+            checkIn: this.savedFilterData.checkIn,
+            checkOut: this.savedFilterData.checkOut,
+            clientEmail: this.userService.getEmail(),
+            hotelAddress: this.savedFilterData.hotelAddress,
+            roomNumber: room.number
+          }
+        ).subscribe(
+          (response) => {
+            button.disabled = true;
+          },
+          error => {
+            console.log(error);
+            alert(error);
+          }
+        )
       )
-    )
+    }else{
+      this.router.navigate(['/login']);
+    }
   }
+
 
 }

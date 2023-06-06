@@ -12,7 +12,7 @@ import {Router} from "@angular/router";
 export class LoginPageComponent implements OnDestroy{
 
   passwordMinLength:number = 6;
-  hidePassword:boolean = false;
+  hidePassword:boolean = true;
   reactiveForm: FormGroup;
   invalidPasswordError:boolean=false;
   subs:Subscription[]=[];
@@ -41,7 +41,7 @@ export class LoginPageComponent implements OnDestroy{
       (response)=>{
         this.userService.userLogin(response.authenticated, this.reactiveForm.value.email, response.role);
         if(this.userService.getRole()==='ADMIN') this.router.navigate(['/admin/home']);
-        else if(this.userService.getRole()==='CLIENT') this.router.navigate(['/user']);
+        else if(this.userService.getRole()==='CLIENT') this.router.navigate(['/user/booking']);
       },
       error => {
         console.log(error);

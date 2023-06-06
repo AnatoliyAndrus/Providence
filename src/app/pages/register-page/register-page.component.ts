@@ -12,7 +12,7 @@ import {UserService} from "../../services/user.service";
 export class RegisterPageComponent implements OnDestroy{
 
   passwordMinLength:number;
-  hidePassword:boolean = false;
+  hidePassword:boolean = true;
   reactiveForm: FormGroup;
 
   subscriptions:Subscription[]=[];

@@ -5,8 +5,8 @@
       <form [formGroup]="hotelAddForm" (ngSubmit)="onAddSubmit()">
         <mat-form-field>
           <input matInput formControlName="address" placeholder="Address" required>
+          <mat-error *ngIf="hotelAddForm.get('address')?.hasError('required')">Address is required</mat-error>
         </mat-form-field>
-        <mat-error *ngIf="hotelAddForm.get('address')?.hasError('required')">Address is required</mat-error>
         <br><mat-form-field>
           <mat-label>Stars</mat-label>
           <mat-select formControlName="stars">
@@ -16,7 +16,7 @@
         </mat-form-field>
         <br><mat-form-field>
           <mat-label>Phone number</mat-label>
-          <input matInput placeholder="+380992008322" formControlName="phoneNumber">
+          <input matInput placeholder="380992008322" formControlName="phoneNumber">
           <mat-error *ngIf="hotelAddForm.get('phoneNumber')?.hasError('required')">Phone is required</mat-error>
           <mat-error *ngIf="hotelAddForm.get('phoneNumber')?.hasError('invalidPhone')">Invalid phone</mat-error>
         </mat-form-field>
