@@ -61,11 +61,11 @@
 
 <mat-grid-list [cols]="3" rowHeight="350px" *ngIf="roomsDepicted">
   <mat-grid-tile *ngFor="let room of roomsChosen">
-    <mat-card>
+    <mat-card style="width: 250px;">
+      <img [src]="'data:image/png;base64,'+room.image" alt="Room Image" mat-card-image style="width: 100%; object-fit: cover;" height="150">
       <mat-card-header>
         <mat-card-title>№{{ room.number }}</mat-card-title>
       </mat-card-header>
-      <img [src]="'data:image/png;base64,'+room.image" alt="Room Image" mat-card-image style="width: available; object-fit: cover;" height="150">
       <mat-card-content>
         <mat-icon *ngFor="let i of [].constructor(room.capacity)">face</mat-icon>
         <p>Price {{ room.price }}$</p>
