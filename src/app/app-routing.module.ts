@@ -10,11 +10,14 @@ import {AdminRoomsPageComponent} from "./pages/admin-rooms-page/admin-rooms-page
 import {UserBookingPageComponent} from "./pages/user-booking-page/user-booking-page.component";
 import {UserMyBookingsPageComponent} from "./pages/user-my-bookings-page/user-my-bookings-page.component";
 import {AdminBookingsPageComponent} from "./pages/admin-bookings-page/admin-bookings-page.component";
+import {AdminGuard} from "./route-guards/admin.guard";
+import {UserHomePageComponent} from "./pages/user-home-page/user-home-page.component";
 
 const routes: Routes = [
+  {path:'', pathMatch:"full", redirectTo:'/user'},
   {path:'register', component:RegisterPageComponent},
   {path:'login', component:LoginPageComponent},
-  {path:'admin', component:AdminPageComponent, children:[
+  {path:'admin', component:AdminPageComponent, canActivate: [AdminGuard], canActivateChild: [AdminGuard], children:[
       {path:'home', component:AdminHomePageComponent},
       {path:'hotels', component:AdminHotelsPageComponent},
       {path:'rooms', component:AdminRoomsPageComponent},
@@ -22,7 +25,8 @@ const routes: Routes = [
     ]},
   {path:'user', component:UserPageComponent, children:[
       {path:'booking', component: UserBookingPageComponent},
-      {path:'myBookings', component: UserMyBookingsPageComponent}
+      {path:'myBookings', component: UserMyBookingsPageComponent},
+      {path:'home', component: UserHomePageComponent}
     ]}
 ];
 

@@ -30,6 +30,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatCardModule} from "@angular/material/card";
 import { AdminBookingsPageComponent } from './pages/admin-bookings-page/admin-bookings-page.component';
+import { UserHomePageComponent } from './pages/user-home-page/user-home-page.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { AdminBookingsPageComponent } from './pages/admin-bookings-page/admin-bo
     AdminRoomsPageComponent,
     UserBookingPageComponent,
     UserMyBookingsPageComponent,
-    AdminBookingsPageComponent
+    AdminBookingsPageComponent,
+    UserHomePageComponent
   ],
     imports: [
         MatNativeDateModule,

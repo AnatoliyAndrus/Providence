@@ -24,6 +24,7 @@ export class LoginPageComponent implements OnDestroy{
     });
   }
 
+
   ngOnDestroy(): void {
     this.subs.forEach((sub)=>{sub.unsubscribe()});
   }
@@ -41,7 +42,7 @@ export class LoginPageComponent implements OnDestroy{
       (response)=>{
         this.userService.userLogin(response.authenticated, this.reactiveForm.value.email, response.role);
         if(this.userService.getRole()==='ADMIN') this.router.navigate(['/admin/home']);
-        else if(this.userService.getRole()==='CLIENT') this.router.navigate(['/user/booking']);
+        else if(this.userService.getRole()==='CLIENT') this.router.navigate(['/user/home']);
       },
       error => {
         console.log(error);

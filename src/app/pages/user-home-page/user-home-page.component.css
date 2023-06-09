@@ -1,0 +1,15 @@
+.home {
+  text-align: center;
+
+}
+
+.background-image {
+  background-image: url('../../../assets/hotel/my_hotel.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 300px;
+}
+
+h2 {
+  margin-top: 20px;
+}

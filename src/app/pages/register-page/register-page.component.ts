@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {Subscription} from "rxjs";
+import {map, Observable, Subscription} from "rxjs";
 import {UserService} from "../../services/user.service";
 
 @Component({
@@ -22,7 +22,7 @@ export class RegisterPageComponent implements OnDestroy{
     this.reactiveForm = new FormGroup({
       name: new FormControl(null, [Validators.required, this.noSpaceAllowed]),
       surname: new FormControl(null, [Validators.required, this.noSpaceAllowed]),
-      email: new FormControl(null, [Validators.required, Validators.email]),
+      email: new FormControl(null, [Validators.required, Validators.email], [this.createValidator()]),
       password: new FormControl(null, [Validators.required, this.minPassLength, this.noSpaceAllowed, Validators.pattern(/^\S*$/)]),
       country: new FormControl(null, [Validators.required])
     });
@@ -40,6 +40,18 @@ export class RegisterPageComponent implements OnDestroy{
       return {minPassLength:true};
     }
     return null;
+  }
+
+  createValidator(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<any> => {
+      return this.userService
+        .checkIfEmailExists({email: control.value})
+        .pipe(
+          map((result: boolean) =>
+            result ? { emailAlreadyExists: true } : null
+          )
+        );
+    };
   }
 
   onFormSubmit(){

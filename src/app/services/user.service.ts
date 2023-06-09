@@ -53,4 +53,8 @@ export class UserService {
     localStorage.clear();
     localStorage.setItem('authenticated', 'false');
   }
+
+  checkIfEmailExists(value: {email:string}) {
+    return this.http.post<any>(this.baselink+'/emailAlreadyOccupied', value);
+  }
 }

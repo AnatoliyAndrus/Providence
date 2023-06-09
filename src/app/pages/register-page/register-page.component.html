@@ -1,6 +1,6 @@
 <form [formGroup]="reactiveForm" (ngSubmit)="onFormSubmit()">
   <div style="margin-top: 10px; margin-left: 10px;">
-    <h2 style="font-family: 'Times New Roman';"><b>Register</b></h2>
+    <h2 style="font-family: 'Times New Roman',sans-serif;"><b>Register</b></h2>
   </div>
   <mat-divider></mat-divider>
   <mat-grid-list cols="2" rowHeight="90px">
@@ -26,6 +26,8 @@
         <input matInput placeholder="abc@example.com" formControlName="email">
         <mat-error *ngIf="reactiveForm.get('email')?.hasError('required')">Email is required</mat-error>
         <mat-error *ngIf="reactiveForm.get('email')?.hasError('email')">Incorrect email</mat-error>
+        <mat-error *ngIf="reactiveForm.get('email')?.hasError('emailAlreadyExists')">This email already in use</mat-error>
+
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile colspan="2">
@@ -50,9 +52,4 @@
       <button routerLink="../login" class="btn-lg login" mat-button color="primary">login instead</button>
     </mat-grid-tile>
   </mat-grid-list>
-
-
-
-
-
 </form>
