@@ -14,7 +14,7 @@ import {AdminGuard} from "./route-guards/admin.guard";
 import {UserHomePageComponent} from "./pages/user-home-page/user-home-page.component";
 
 const routes: Routes = [
-  {path:'', pathMatch:"full", redirectTo:'/user'},
+  {path:'', pathMatch:"full", redirectTo:'/user/home'},
   {path:'register', component:RegisterPageComponent},
   {path:'login', component:LoginPageComponent},
   {path:'admin', component:AdminPageComponent, canActivate: [AdminGuard], canActivateChild: [AdminGuard], children:[
